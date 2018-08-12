@@ -1,9 +1,7 @@
 import React from 'react'
 
-export default class App extends React.Component {
-    render(){
-        return(
-            <div> thiJggfffggJJJJ</div>
-        )
-    }
-}
+export default () => (
+  <div>
+    thiJggf的非
+  </div>
+)
