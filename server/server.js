@@ -7,7 +7,7 @@ const path = require('path')
 const app = express()
 const isDev = process.env.NODE_ENV === 'development'
 
-app.use(bodyParser)
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(session({

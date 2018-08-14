@@ -8,7 +8,7 @@ export default class TopicDetail extends React.Component {
   render() {
     return (
       <div>
-        this is detail
+        this good  detail
       </div>
     )
   }
