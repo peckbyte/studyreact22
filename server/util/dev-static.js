@@ -7,6 +7,7 @@ const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
 const asyncBootstrap = require('react-async-bootstrapper')
 const ejs = require('ejs')
+const serialize = require('serialize-javascript')
 const getTemplate = () => {
 return new Promise((resolve, reject) => {
     axios.get('http://0.0.0.0:5577/public/server.ejs')
@@ -57,19 +58,19 @@ app.get('*',function (req,res) {
       const stores = createStoreMap()
       const app = serverBundle(stores, routerContex, req.url)
       asyncBootstrap(app).then(() => {
-        const content = ReactDomServer.renderToString(app)
 
         if(routerContex.url) {
           res.status(302).setHeader('Location',routerContex.url)
           res.end()
           return
         }
+        const content = ReactDomServer.renderToString(app)
         const state = getStoreState(stores)
         console.log(stores.appState.count)
 
         const html = ejs.render(template,{
           appString: content,
-          initialState: state,
+          initialState: serialize(state),
         })
 
         res.send(html)
