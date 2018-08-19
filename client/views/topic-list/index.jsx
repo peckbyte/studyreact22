@@ -4,8 +4,8 @@ import {
   observer,
   inject,
 } from 'mobx-react'
+import Helmet from 'react-helmet'
 import AppState from '../../store/app-static'
-
 @inject('appState') @observer
 export default class TopicList extends React.Component {
   constructor() {
@@ -36,6 +36,12 @@ export default class TopicList extends React.Component {
     const test = this.props;
     return (
       <div>
+        <Helmet>
+          <title>
+            Title good
+          </title>
+          <meta name="description" content="this description" />
+        </Helmet>
         <input type="text" onChange={this.changeName} />
         <div>
           {test.appState.msg}

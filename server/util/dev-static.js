@@ -18,6 +18,7 @@ return new Promise((resolve, reject) => {
 })
 }
 
+const Helmet = require('react-helmet').default
 const NativeModule = require('module')
 const vm = require('vm')
 const getModuleFromString = (bundle, filename) => {
@@ -79,6 +80,7 @@ app.get('*',function (req,res) {
           res.end()
           return
         }
+        const helmet = Helmet.rewind()
         const content = ReactDomServer.renderToString(app)
         const state = getStoreState(stores)
         console.log(stores.appState.count)
@@ -86,6 +88,10 @@ app.get('*',function (req,res) {
         const html = ejs.render(template,{
           appString: content,
           initialState: serialize(state),
+          meta: helmet.meta.toString(),
+          title: helmet.title.toString(),
+          style: helmet.style.toString(),
+          link: helmet.link.toString(),
         })
 
         res.send(html)
