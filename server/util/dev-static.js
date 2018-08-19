@@ -18,7 +18,23 @@ return new Promise((resolve, reject) => {
 })
 }
 
-const Module = module.constructor
+const NativeModule = require('module')
+const vm = require('vm')
+const getModuleFromString = (bundle, filename) => {
+  const m = {exports: { } }
+  const wrapper = NativeModule.wrap(bundle)
+  const script = vm.Script(wrapper, {
+    filename: filename,
+    displayErrors: true,
+  })
+
+  const result = script.runInThisContext()
+  result.call(m.exports, m.exports, require, m)
+
+}
+
+
+// const Module = module.constructor
 let serverBundle, createStoreMap
 const  mfs = new MemoryFs
 const serverCompiler = webpack(serverConfig)
