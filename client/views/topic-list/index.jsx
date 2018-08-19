@@ -17,6 +17,16 @@ export default class TopicList extends React.Component {
     // do something here
   }
 
+  asyncBootstrap() {
+    const test = this.props
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        test.appState.count = 5
+        resolve(true)
+      })
+    })
+  }
+
   changeName(event) {
     const test = this.props;
     test.appState.changeName(event.target.value)

@@ -5,7 +5,7 @@ const serverConfig = require('../../build/webpack.config.server')
 const ReactDomServer = require('react-dom/server')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
-const asyncBootstrap = require('react-async-bootstrapper').default
+const asyncBootstrap = require('react-async-bootstrapper')
 const getTemplate = () => {
 return new Promise((resolve, reject) => {
     axios.get('http://0.0.0.0:5577/public/index.html')
@@ -44,15 +44,20 @@ module.exports = function (app) {
 app.get('*',function (req,res) {
     getTemplate().then(template => {
       const routerContex = {}
-      const app = serverBundle(createStoreMap(), routerContex, req.url)
+      const stores = createStoreMap()
+      const app = serverBundle(stores, routerContex, req.url)
+      asyncBootstrap(app).then(() => {
+        const content = ReactDomServer.renderToString(app)
 
-    const content = ReactDomServer.renderToString(app)
-      if(routerContex.url) {
-        res.status(302).setHeader('Location',routerContex.url)
-        res.end()
-        return
-      }
-    res.send(template.replace('<!-- app -->',content))
+        if(routerContex.url) {
+          res.status(302).setHeader('Location',routerContex.url)
+          res.end()
+          return
+        }
+        console.log(stores.appState.count)
+        res.send(template.replace('<!-- app -->',content))
+      })
+
     })
 })
 }
