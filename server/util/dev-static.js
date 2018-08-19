@@ -6,9 +6,10 @@ const ReactDomServer = require('react-dom/server')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
 const asyncBootstrap = require('react-async-bootstrapper')
+const ejs = require('ejs')
 const getTemplate = () => {
 return new Promise((resolve, reject) => {
-    axios.get('http://0.0.0.0:5577/public/index.html')
+    axios.get('http://0.0.0.0:5577/public/server.ejs')
         .then(res => {
             resolve(res.data)
         })
@@ -37,6 +38,15 @@ serverCompiler.watch({},(err,stats) => {
     serverBundle = m.exports.default
     createStoreMap = m.exports.createStoreMap
 })
+
+const getStoreState = (stores) => {
+  return Object.keys(stores).reduce((result,storeName) => {
+    result[storeName] = stores[storeName].toJson()
+    return result
+  }, {})
+}
+
+
 module.exports = function (app) {
     app.use('/public',proxy({
         target: 'http://0.0.0.0:5577'
@@ -54,8 +64,17 @@ app.get('*',function (req,res) {
           res.end()
           return
         }
+        const state = getStoreState(stores)
         console.log(stores.appState.count)
-        res.send(template.replace('<!-- app -->',content))
+
+        const html = ejs.render(template,{
+          appString: content,
+          initialState: state,
+        })
+
+        res.send(html)
+
+        // res.send(template.replace('<!-- app -->',content))
       })
 
     })
