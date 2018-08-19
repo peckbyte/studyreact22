@@ -4,7 +4,7 @@ import {
   observer,
   inject,
 } from 'mobx-react'
-import { AppState } from '../../store/app-static'
+import AppState from '../../store/app-static'
 
 @inject('appState') @observer
 export default class TopicList extends React.Component {
