@@ -16,7 +16,7 @@ return new Promise((resolve, reject) => {
 }
 
 const Module = module.constructor
-let serverBundle
+let serverBundle, createStoreMap
 const  mfs = new MemoryFs
 const serverCompiler = webpack(serverConfig)
 serverCompiler.outputFileSystem = mfs
@@ -34,6 +34,7 @@ serverCompiler.watch({},(err,stats) => {
     const m = new Module()
     m._compile(bundle,'server-entry.js')
     serverBundle = m.exports.default
+    createStoreMap = m.exports.createStoreMap
 })
 module.exports = function (app) {
     app.use('/public',proxy({
@@ -41,7 +42,10 @@ module.exports = function (app) {
     }))
 app.get('*',function (req,res) {
     getTemplate().then(template => {
-    const content = ReactDomServer.renderToString(serverBundle)
+      const routerContex = {}
+      const app = serverBundle(createStoreMap(), routerContex, req.url)
+
+    const content = ReactDomServer.renderToString(app)
     res.send(template.replace('<!-- app -->',content))
     })
 })
