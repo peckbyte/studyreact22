@@ -5,6 +5,7 @@ const serverConfig = require('../../build/webpack.config.server')
 const ReactDomServer = require('react-dom/server')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
+const asyncBootstrap = require('react-async-bootstrapper').default
 const getTemplate = () => {
 return new Promise((resolve, reject) => {
     axios.get('http://0.0.0.0:5577/public/index.html')
