@@ -46,6 +46,11 @@ app.get('*',function (req,res) {
       const app = serverBundle(createStoreMap(), routerContex, req.url)
 
     const content = ReactDomServer.renderToString(app)
+      if(routerContex.url) {
+        res.status(302).setHeader('Location',routerContex.url)
+        res.end()
+        return
+      }
     res.send(template.replace('<!-- app -->',content))
     })
 })
