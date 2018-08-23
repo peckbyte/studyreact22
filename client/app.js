@@ -15,8 +15,25 @@ const theme = createMuiTheme({
     type: 'light',
   },
 })
-const initialState = window.__INITIAL__STATE__ || { }  // eslint-disable-line
 
+
+const initialState = window.__INITIAL__STATE__ || { }  // eslint-disable-line
+const createApp = (TheApp) => {   // eslint-disable-line
+  class Main extends React.Component {
+    // Remove the server-side injected CSS.
+    componentDidMount() {
+      const jssStyles = document.getElementById('jss-server-side');
+      if (jssStyles && jssStyles.parentNode) {
+        jssStyles.parentNode.removeChild(jssStyles);
+      }
+    }
+
+    render() {
+      return <TheApp />
+    }
+  }
+  return Main
+}
 const root = document.getElementById('root')
 const render = Component => ReactDOM.hydrate(
   <AppContainer key="appcontainer">
@@ -31,12 +48,12 @@ const render = Component => ReactDOM.hydrate(
   root,
 )
 
-render(App)
+render(createApp(App))
 
 if (module.hot) {
   module.hot.accept('./views/App', () => {
     const NextApp = require('./views/App').default //eslint-disable-line
     // ReactDOM.hydrate(<NextApp />,document.getElementById('root'))
-    render(NextApp)
+    render(createApp(NextApp))
   })
 }

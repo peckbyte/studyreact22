@@ -3,6 +3,12 @@ const ejs = require('ejs')
 const serialize = require('serialize-javascript')
 const ReactDomServer = require('react-dom/server')
 const Helmet = require('react-helmet').default
+const SheetsRegistry = require('react-jss').SheetsRegistry
+const create = require('jss').create
+const preset = require('jss-preset-default').default
+const createMuiTheme = require('@material-ui/core/styles').createMuiTheme
+const createGenerateClassName = require('@material-ui/core/styles/createGenerateClassName').default
+const colors = require('@material-ui/core/colors')
 
 const getStoreState = (stores) => {
   return Object.keys(stores).reduce((result,storeName) => {
@@ -10,6 +16,9 @@ const getStoreState = (stores) => {
     return result
   }, {})
 }
+
+const sheetsRegistry = new SheetsRegistry();
+const generateClassName = createGenerateClassName();
 
 
 module.exports = (bundle, template, req, res) => {
@@ -19,7 +28,15 @@ module.exports = (bundle, template, req, res) => {
     const createApp = bundle.default
     const routerContex = {}
     const stores = createStoreMap()  // eslint-disable-line
-    const app = createApp(stores, routerContex, req.url)
+    const theme = createMuiTheme({
+      palette: {
+        primary: colors.lightBlue,
+        secondary: colors.pink,
+        type: 'light',
+      },
+    })
+    const sheetsManager =new Map()
+    const app = createApp(stores, routerContex, sheetsRegistry, generateClassName, theme, sheetsManager, req.url)
     asyncBootstrap(app).then(() => {
 
       if (routerContex.url) {
@@ -39,6 +56,7 @@ module.exports = (bundle, template, req, res) => {
         title: helmet.title.toString(),
         style: helmet.style.toString(),
         link: helmet.link.toString(),
+        materialCss: sheetsRegistry.toString(),
       })
 
       res.send(html)
