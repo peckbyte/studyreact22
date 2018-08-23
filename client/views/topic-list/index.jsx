@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button'
 import {
   observer,
   inject,
@@ -42,6 +43,9 @@ export default class TopicList extends React.Component {
           </title>
           <meta name="description" content="this description" />
         </Helmet>
+        <Button variant="contained" color="primary">
+          按钮
+        </Button>
         <input type="text" onChange={this.changeName} />
         <div>
           {test.appState.msg}
