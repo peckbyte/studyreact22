@@ -12,7 +12,8 @@
     "clear": "rimraf dist",
     "build": "npm run clear && npm run build:client && npm run build:server",
     "start": "node server/server.js",
-    "nodemon:server": "nodemon server/server.js"
+    "nodemon:server": "nodemon server/server.js",
+    "start": "cross-env NODE_ENV=production node server/server.js"
   },
   "author": "peck",
   "license": "ISC",
