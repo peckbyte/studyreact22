@@ -24,7 +24,7 @@ const createApp = (TheApp) => {   // eslint-disable-line
     componentDidMount() {
       const jssStyles = document.getElementById('jss-server-side');
       if (jssStyles && jssStyles.parentNode) {
-        jssStyles.parentNode.removeChild(jssStyles);
+       // jssStyles.parentNode.removeChild(jssStyles);
       }
     }
 
@@ -53,7 +53,7 @@ render(createApp(App))
 if (module.hot) {
   module.hot.accept('./views/App', () => {
     const NextApp = require('./views/App').default //eslint-disable-line
-    // ReactDOM.hydrate(<NextApp />,document.getElementById('root'))
+    // ReactDOM.hydrate(<NextApp />, document.getElementById('root'))
     render(createApp(NextApp))
   })
 }

@@ -3,7 +3,7 @@ const ejs = require('ejs')
 const serialize = require('serialize-javascript')
 const ReactDomServer = require('react-dom/server')
 const Helmet = require('react-helmet').default
-const SheetsRegistry = require('react-jss').SheetsRegistry
+const { SheetsRegistry } = require('react-jss/lib/jss')
 const create = require('jss').create
 const preset = require('jss-preset-default').default
 const createMuiTheme = require('@material-ui/core/styles').createMuiTheme
@@ -30,8 +30,8 @@ module.exports = (bundle, template, req, res) => {
     const stores = createStoreMap()  // eslint-disable-line
     const theme = createMuiTheme({
       palette: {
-        primary: colors.lightBlue,
-        secondary: colors.pink,
+        primary: colors.yellow,
+        secondary: colors.green,
         type: 'light',
       },
     })
