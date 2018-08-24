@@ -30,8 +30,8 @@ module.exports = (bundle, template, req, res) => {
     const stores = createStoreMap()  // eslint-disable-line
     const theme = createMuiTheme({
       palette: {
-        primary: colors.yellow,
-        secondary: colors.green,
+        primary: colors.lightBlue,
+        secondary: colors.pink,
         type: 'light',
       },
     })

@@ -6,11 +6,11 @@
     <%%- title %>
     <%%- meta %>
     <%%- link %>
-    <%%- style %>
+    <style id="jss-server-side">
+      <%%- materialCss %>
+    </style>
 </head>
-<style id="jss-server-side">
-  <%%- materialCss %>
-</style>
+
 <body>
 <div id="root">  <%%- appString %>
   <script>

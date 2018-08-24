@@ -10,9 +10,9 @@ import AppState from './store/app-static'
 
 const theme = createMuiTheme({
   palette: {
-    primary: lightBlue,
-    secondary: pink,
-    type: 'light',
+    primary: pink,
+    secondary: lightBlue,
+    type: 'dark',
   },
 })
 
@@ -24,7 +24,7 @@ const createApp = (TheApp) => {   // eslint-disable-line
     componentDidMount() {
       const jssStyles = document.getElementById('jss-server-side');
       if (jssStyles && jssStyles.parentNode) {
-       // jssStyles.parentNode.removeChild(jssStyles);
+        jssStyles.parentNode.removeChild(jssStyles);
       }
     }
 

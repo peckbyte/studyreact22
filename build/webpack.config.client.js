@@ -24,6 +24,7 @@ const baseConfig = require('./webpack.config.base')
 })
 
 if (isDev) {
+  config.devtool = '#cheap-module-eval-source-map'
     config.entry = {
         app:['react-hot-loader/patch',
             path.join(__dirname,'../client/app.js')
@@ -32,7 +33,7 @@ if (isDev) {
     config.devServer = {
         host:'0.0.0.0',
         port:'5577',
-        contentBase:path.join(__dirname,'../dist'),
+        // contentBase:path.join(__dirname,'../dist'),
         overlay:{
             errors:true
         },
