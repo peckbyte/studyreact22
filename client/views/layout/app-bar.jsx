@@ -46,7 +46,7 @@ class MainAppBar extends React.Component {
         <AppBar position="fixed">
           <ToolBar>
             <IconButton color="contrast" onClick={this.onHomeIconClick}>
-              <HomeIcon />
+              <HomeIcon color="inherit" />
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
               JNode
