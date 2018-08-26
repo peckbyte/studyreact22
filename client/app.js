@@ -6,7 +6,7 @@ import { AppContainer } from 'react-hot-loader' //eslint-disable-line
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import App from './views/App'
-import AppState from './store/app-static'
+import { AppState, TopicStore } from './store/store'
 
 const theme = createMuiTheme({
   palette: {
@@ -15,7 +15,6 @@ const theme = createMuiTheme({
     type: 'light',
   },
 })
-
 
 const initialState = window.__INITIAL__STATE__ || { }  // eslint-disable-line
 const createApp = (TheApp) => {   // eslint-disable-line
@@ -34,10 +33,12 @@ const createApp = (TheApp) => {   // eslint-disable-line
   }
   return Main
 }
+const topicStore = new TopicStore(initialState.topicStore)
+const appState = new AppState(initialState.appState)
 const root = document.getElementById('root')
 const render = Component => ReactDOM.hydrate(
   <AppContainer key="appcontainer">
-    <Provider appState={new AppState(initialState.appState)} key="provider">
+    <Provider appState={appState} topicStore={topicStore} key="provider">
       <BrowserRouter key="router">
         <MuiThemeProvider theme={theme}>
           <Component />

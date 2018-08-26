@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // import Button from '@material-ui/core/Button'
 import Tabs from '@material-ui/core/Tabs'
+import List from '@material-ui/core/List'
 import Tab from '@material-ui/core/Tab'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import {
   observer,
   inject,
@@ -11,7 +13,12 @@ import Helmet from 'react-helmet'
 import AppState from '../../store/app-static'
 import Container from '../layout/container'
 import TopicListItem from './list-item'
-@inject('appState') @observer
+import { TopicStore } from '../../store/store';
+@inject(stores => ({
+  appState: stores.appState,
+  topicStore: stores.topicStore,
+}
+)) @observer
 export default class TopicList extends React.Component {
   constructor() {
     super()
@@ -23,6 +30,7 @@ export default class TopicList extends React.Component {
   }
 
   componentDidMount() {
+    this.props.topicStore.fetchTopics() // eslint-disable-line
     // do something here
   }
 
@@ -51,14 +59,20 @@ export default class TopicList extends React.Component {
       tabIndex, // 这里使用了解构函数
     } = this.state
 
-    const topic = {
-      title: 'this is title',
-      username: 'Jokcy',
-      reply_count: 20,
-      visit_count: 30,
-      create_at: '2018年8月',
-      tab: 'share',
-    }
+    const {
+      topicStore,
+    } = this.props
+
+    const topicList = topicStore.topics
+    const syncingTopics = topicStore.syncing
+    // const topic = {
+    //   title: 'this is title',
+    //   username: 'Jokcy',
+    //   reply_count: 20,
+    //   visit_count: 30,
+    //   create_at: '2018年8月',
+    //   tab: 'share',
+    // }
     // const test = this.props;
     return (
       <Container>
@@ -76,12 +90,26 @@ export default class TopicList extends React.Component {
           <Tab label="精品" />
           <Tab label="测试" />
         </Tabs>
-        <TopicListItem onClick={this.listItemClick} topic={topic} />
+        <List>
+          {
+            topicList.map(topic => <TopicListItem onClick={this.listItemClick} topic={topic} />)
+          }
+        </List>
+        {
+
+          syncingTopics ? (
+            <div>
+              <CircularProgress color="primary" size={100} />
+            </div>
+          ) : null
+        }
       </Container>
     )
   }
 }
 
-TopicList.propTypes = {
-  appState: PropTypes.instanceOf(AppState), // eslint-disable-line
+TopicList.wrappedComponent.propTypes = {
+  appState: PropTypes.instanceOf(AppState).isRequired, // eslint-disable-line
+  topicStore: PropTypes.instanceOf(TopicStore).isRequired, // eslint-disable-line
+
 }

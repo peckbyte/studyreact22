@@ -45,7 +45,7 @@ class MainAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="fixed">
           <ToolBar>
-            <IconButton color="contrast" onClick={this.onHomeIconClick}>
+            <IconButton color="primary" onClick={this.onHomeIconClick}>
               <HomeIcon color="inherit" />
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
@@ -54,7 +54,7 @@ class MainAppBar extends React.Component {
             <Button variant="raised" color="primary" onClick={this.createButtonClick}>
               新建话题
             </Button>
-            <Button color="contrast" onClick={this.loginButtonClick}>
+            <Button color="secondary" onClick={this.loginButtonClick}>
               登录
             </Button>
           </ToolBar>
