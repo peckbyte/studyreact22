@@ -13,9 +13,9 @@ export default class TopicList extends React.Component {
     this.changeName = this.changeName.bind(this)
   }
 
-  componentDidMount() {
-    // do something here
-  }
+  // componentDidMount() {
+  //   // do something here
+  // }
 
   changeName(event) {
     const test = this.props;

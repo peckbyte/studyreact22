@@ -5,8 +5,8 @@ import {
 import Routes from '../config/router'
 
 export default class App extends React.Component {
-  componentDidMount() { // do something here
-  }
+  // componentDidMount() { // do something here
+  // }
 
   render() {
     return [

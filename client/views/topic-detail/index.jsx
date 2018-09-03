@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default class TopicDetail extends React.Component {
-  componentDidMount() {
-    // do something here
-  }
+export default class TopicDetail extends React.Component { //eslint-disable-line
+  // componentDidMount() {
+  //   // do something here
+  // }
 
   render() {
     return (
