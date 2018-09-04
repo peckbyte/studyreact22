@@ -8,7 +8,9 @@ import {
 import { topicSchema } from '../util/variable-define'
 import { get } from '../util/http'
 
-const createTopic = (topic) => { Object.assign({}, topicSchema, topic) }
+const createTopic = (topic) => { // eslint-disable-line
+  return Object.assign({}, topicSchema, topic)
+}
 
 class Topic {
   constructor(data) {
@@ -35,7 +37,7 @@ class TopicStore {
   @action fetchTopics() {
     return new Promise((resolve, reject) => {
       this.syncing = true
-      get('topics', {
+      get('/topics', {
         mdrender: 'false',
       }).then((resp) => {
         if (resp.success) {
